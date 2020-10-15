@@ -1,0 +1,29 @@
+mport java.io.FileOutputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+ 
+public class Client
+{
+    public static void main(String[] args) throws IOException
+    {
+        String host = "localhost";
+        int port = 9999;
+ 
+        Socket s = new Socket(host,port);
+ 
+        InputStream in = s.getInputStream();
+        FileOutputStream out = new FileOutputStream("C://java_out.txt");
+ 
+        int c =0;
+        while((c = in.read()) >=0)
+        {
+            out.write((char)c);
+        }
+        out.close();
+        in.close();
+        s.close();
+ 
+    }
+}

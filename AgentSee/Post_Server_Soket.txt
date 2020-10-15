@@ -1,0 +1,31 @@
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+ 
+public class Server
+{
+ 
+    public static void main(String[] args) throws IOException
+    {
+        int port = 9999;
+        ServerSocket ss = new ServerSocket(port);
+ 
+        Socket s = ss.accept();
+        System.out.println("Подключился Клиент");
+ 
+        InputStream in = new FileInputStream("C://java_in.txt");
+        OutputStream out = s.getOutputStream();
+ 
+        int c =0;
+        while((c = in.read()) >=0)
+        {
+            out.write(c);
+            out.flush();        
+        }
+        System.out.println("Файл передан");
+        out.close();
+        in.close();
+        s.close();
+        ss.close();
+    }
+}   
